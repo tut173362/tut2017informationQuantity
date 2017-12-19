@@ -38,30 +38,45 @@ public class TestCase {
 	    System.out.println("checking s4.b173362.Frequencer");
 	    myObject = new s4.b173362.Frequencer();
         
-        System.out.println("Target指定ありのパターン");
+        System.out.println("[Target指定ありのパターン]");
 	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
 	    myObject.setTarget("H".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         subfreq = myObject.subByteFrequency(0,4);
-        System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+subfreq+" times. (0-4)");
+        System.out.print("\"H\" in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
         if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         
         System.out.println();
-        System.out.println("Target指定なしのパターン");
-        
-        /*Target*/
-        myObject.setSpace("Wifi Wifi".getBytes());
+        System.out.println("[Targetなしのパターン]");
+        /*Target指定なし*/
+        myObject.setSpace("Hi Ho Hi Ho".getBytes());
         myObject.setTarget("".getBytes());
         freq = myObject.frequency();
         
-        System.out.print("\"\" in \"Wifi Wifi\" appears "+freq+" times. ");
-        if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        System.out.print("\"\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+        if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         subfreq = myObject.subByteFrequency(0,4);
-        System.out.print("\"\" in \"Wifi Wifi\" appears "+subfreq+" times. (0-3)");
-        if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-        /*ここまで*/
+        System.out.print("\"\" in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
+        if(-1 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        /*Target指定なし*/
+        
+        System.out.println();
+        System.out.println("[Targetがnullのパターン]");
+        /*Target null*/
+        myObject.setSpace("Hi Ho Hi Ho".getBytes());
+        
+        freq = myObject.frequency();
+        System.out.print("null in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+        if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        
+        subfreq = myObject.subByteFrequency(0,4);
+        System.out.print("null in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
+        if(-1 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        /*Target null*/
+        
+        
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
@@ -92,9 +107,28 @@ public class TestCase {
         System.out.println(">100 "+value);
         
         /*ここから追加*/
-        myObject.setTarget("1000".getBytes());
+        System.out.println("[Targetがないパターン]");
+        System.out.println("0.0を出力する");
+        myObject.setTarget("".getBytes());
         value = myObject.estimation();
-        System.out.println(">1000 "+value);
+        System.out.print(">"+value);
+        if(0.0 == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
+        
+        System.out.println("[Targetが未指定パターン]");
+        System.out.println("0.0を出力する");
+        myObject.setTarget(null);
+        value = myObject.estimation();
+        System.out.print(">"+value);
+        if(0.0 == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
+        
+        System.out.println("[Spaceがないパターン]");
+        System.out.println("Double.MaxValueを出力する");
+        myObject.setSpace(null);
+        myObject.setTarget("0".getBytes());
+        value = myObject.estimation();
+        System.out.print(">0 "+value);
+        if(Double.MAX_VALUE == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
+        
         /*ここまで*/
 	}
 	catch(Exception e) {

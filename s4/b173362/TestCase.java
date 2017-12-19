@@ -37,23 +37,29 @@ public class TestCase {
         int subfreq;
 	    System.out.println("checking s4.b173362.Frequencer");
 	    myObject = new s4.b173362.Frequencer();
+        
+        System.out.println("Target指定ありのパターン");
 	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
 	    myObject.setTarget("H".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-        subfreq = myObject.subBytefrequency(0,4);
+        subfreq = myObject.subByteFrequency(0,4);
         System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+subfreq+" times. (0-4)");
         if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         
-        /*ここから追加*/
+        System.out.println();
+        System.out.println("Target指定なしのパターン");
+        
+        /*Target*/
         myObject.setSpace("Wifi Wifi".getBytes());
-        myObject.setTarget("i".getBytes());
+        myObject.setTarget("".getBytes());
         freq = myObject.frequency();
-        System.out.print("\"i\" in \"Wifi Wifi\" appears "+freq+" times. ");
+        
+        System.out.print("\"\" in \"Wifi Wifi\" appears "+freq+" times. ");
         if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-        subfreq = myObject.subBytefrequency(0,4);
-        System.out.print("\"H\" in \"Wifi Wifi\" appears "+subfreq+" times. (0-3)");
+        subfreq = myObject.subByteFrequency(0,4);
+        System.out.print("\"\" in \"Wifi Wifi\" appears "+subfreq+" times. (0-3)");
         if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         /*ここまで*/
 	}
@@ -64,6 +70,8 @@ public class TestCase {
 	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
+        
+        System.out.println();
 	    System.out.println("checking s4.b173362.InformationEstimator");
 	    myObject = new s4.b173362.InformationEstimator();
 	    myObject.setSpace("3210321001230123".getBytes());

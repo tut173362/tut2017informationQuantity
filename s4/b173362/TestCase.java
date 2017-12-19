@@ -34,6 +34,7 @@ public class TestCase {
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
+        int subfreq;
 	    System.out.println("checking s4.b173362.Frequencer");
 	    myObject = new s4.b173362.Frequencer();
 	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
@@ -41,6 +42,20 @@ public class TestCase {
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        subfreq = myObject.subBytefrequency(0,4);
+        System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+subfreq+" times. (0-4)");
+        if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        
+        /*ここから追加*/
+        myObject.setSpace("Wifi Wifi".getBytes());
+        myObject.setTarget("i".getBytes());
+        freq = myObject.frequency();
+        System.out.print("\"i\" in \"Wifi Wifi\" appears "+freq+" times. ");
+        if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        subfreq = myObject.subBytefrequency(0,4);
+        System.out.print("\"H\" in \"Wifi Wifi\" appears "+subfreq+" times. (0-3)");
+        if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        /*ここまで*/
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
@@ -64,6 +79,15 @@ public class TestCase {
 	    myObject.setTarget("00".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">00 "+value);
+        myObject.setTarget("100".getBytes());
+        value = myObject.estimation();
+        System.out.println(">100 "+value);
+        
+        /*ここから追加*/
+        myObject.setTarget("1000".getBytes());
+        value = myObject.estimation();
+        System.out.println(">1000 "+value);
+        /*ここまで*/
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");

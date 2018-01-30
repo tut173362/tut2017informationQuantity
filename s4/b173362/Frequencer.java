@@ -105,11 +105,12 @@ public class Frequencer implements FrequencerInterface{
     private int targetCompare(int i, int start, int end) {
         int s1=suffixArray[i];//myspaceの開始位置
         int s2=end-start;//mytargetの文字数
+        if(s2 > mySpace.length-s1) return -1;//target_start_endのほうが長い時
         for(int k=0;k<s2;k++) {//target_start_endの文字数分文字列の比較
             if(mySpace[s1+k]>myTarget[start+k]) return 1;
             if(mySpace[s1+k]<myTarget[start+k]) return -1;
         }
-        if(s2 > mySpace.length-s1) return -1;//target_start_endのほうが長い時
+
         return 0;
     }
 
@@ -238,7 +239,7 @@ public class Frequencer implements FrequencerInterface{
     
             frequencerObject = new Frequencer();
             frequencerObject.setSpace("Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("Ho".getBytes());
+            frequencerObject.setTarget("Hi Ho".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); }

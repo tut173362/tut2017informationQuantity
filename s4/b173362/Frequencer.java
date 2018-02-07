@@ -84,7 +84,7 @@ public class Frequencer implements FrequencerInterface{
     }
     public int part(int left, int right){
         int leftwall=left;
-        for(int i=left+1;i<right;i++){
+        for(int i=left+1;i<=right;i++){
             if(suffixCompare(i,left)==-1){
                 leftwall+=1;
                 swap(i,leftwall);
@@ -105,79 +105,64 @@ public class Frequencer implements FrequencerInterface{
     private int targetCompare(int i, int start, int end) {
         int s1=suffixArray[i];//myspaceの開始位置
         int s2=end-start;//mytargetの文字数
-        if(s2 > mySpace.length-s1) return -1;//target_start_endのほうが長い時
         for(int k=0;k<s2;k++) {//target_start_endの文字数分文字列の比較
-            if(mySpace[s1+k]>myTarget[start+k]) return 1;
-            if(mySpace[s1+k]<myTarget[start+k]) return -1;
+            if(s1+k<mySpace.length){
+                if(mySpace[s1+k]>myTarget[start+k]) return 1;
+                if(mySpace[s1+k]<myTarget[start+k]) return -1;
+            }
+            else return -1;
         }
-
+        //if(s2 > mySpace.length-s1) return -1;//target_start_endのほうが長い
         return 0;
     }
 
     private int subByteStartIndex(int start, int end) {
-        
-        //線形探索
-        /*
-        for(int i = 0;i<mySpace.length;i++){
-            if(targetCompare(i,start,end)==0) return i;
-        }
-        return suffixArray.length;
-        //線形探索
-        */
         int left=0;
         int right=suffixArray.length-1;
         int mid = 0;
-        while(left<right){
+        do{
             mid=(left+right)/2;
-            System.out.println("left:"+left+"right:"+right+"mid:"+mid);
-            System.out.println(targetCompare(mid,start,end));
+            //System.out.println("left:"+left+"right:"+right+"mid:"+mid);
+            //System.out.println(targetCompare(mid,start,end));
             if(targetCompare(mid,start,end)==0){
-                while(targetCompare(mid,start,end)==0&&mid>=0){
-                    if(mid==0)return 0;
-                    else mid--;
-                }
-                System.out.println("center");
-                return mid+1;
+                //System.out.println("center");
+                right=mid-1;
             }
             else if(targetCompare(mid,start,end)==-1){
+                //System.out.println("right");
                 left=mid+1;
-                System.out.println("right");
             }
             else if(targetCompare(mid,start,end)==1){
+                //System.out.println("left");
                 right=mid-1;
-                System.out.println("left");
             }
-            else{return  suffixArray.length;}
+            else{
+                //System.out.println("error");
+                return  suffixArray.length;}
+            
+        }while(right-left>1);
+        
+        if(targetCompare(left,start,end)==0){
+            return left;
         }
-        mid=(left+right)/2;
-        System.out.println("left:"+left+"right:"+right+"mid:"+mid);
-        if(targetCompare(mid+1,start,end)==0){return mid+1;}
-        else if(targetCompare(mid,start,end)==0){return mid;}
-        else if(mid>0&&targetCompare(mid-1,start,end)==0){return mid-1;}
+        else if(targetCompare(right,start,end)==0){
+            return right;
+        }
         return suffixArray.length;
     }
     
 
     private int subByteEndIndex(int start, int end) {
-        /*
-        int j = -1;
-        for(int i = mySpace.length-1;i>=0;i--){
-            if(targetCompare(i,start,end)==0) return i+1;
-        }
-        return suffixArray.length;*/
         int left=0;
         int right=suffixArray.length-1;
         int mid = 0;
-        while(left<right){
+        do{
             mid=(left+right)/2;
-            System.out.println("left:"+left+"right:"+right+"mid:"+mid);
-            System.out.println(targetCompare(mid,start,end));
+            //System.out.println("left:"+left+"right:"+right+"mid:"+mid);
+            //System.out.println(targetCompare(mid,start,end));
+
             if(targetCompare(mid,start,end)==0){
-                while(targetCompare(mid,start,end)==0&&mid<suffixArray.length){
-                    if(mid==suffixArray.length-1)return suffixArray.length-1;
-                    else mid++;
-                }
-                return mid;
+                left=mid+1;
             }
             else if(targetCompare(mid,start,end)==-1){
                 left=mid+1;
@@ -186,11 +171,14 @@ public class Frequencer implements FrequencerInterface{
                 right=mid-1;
             }
             else{return  suffixArray.length;}
+        }while(left<right);
+        
+        if(targetCompare(right,start,end)==0){
+            return right+1;
         }
-        mid=(left+right)/2;
-        if(targetCompare(mid+1,start,end)==0){return mid+1;}
-        else if(targetCompare(mid,start,end)==0){return mid;}
-        else if(mid>0&&targetCompare(mid-1,start,end)==0){return mid-1;}
+        else if(targetCompare(left,start,end)!=0){
+            return left+1;
+        }
         return suffixArray.length;
     }
 
@@ -238,15 +226,16 @@ public class Frequencer implements FrequencerInterface{
         try {
     
             frequencerObject = new Frequencer();
-            frequencerObject.setSpace("Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("Hi Ho".getBytes());
+            frequencerObject.setSpace("Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho".getBytes());
+            frequencerObject.setTarget("o Hi".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); }
             else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
-            System.out.println("STOP");
+            //System.out.println("STOP");
+            System.out.println(e);
         }
     }
 }

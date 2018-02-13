@@ -51,6 +51,7 @@ public class Frequencer implements FrequencerInterface{
     
     public void setSpace(byte []space) {
         mySpace = space;
+        if(space!=null){
         if(mySpace.length>0) spaceReady = true;
         suffixArray = new int[space.length];
         // put all suffixes in suffixArray. Each suffix is expressed by one interger.
@@ -59,6 +60,7 @@ public class Frequencer implements FrequencerInterface{
         }
         quicksort(0,mySpace.length-1);//クイックソートの呼び出し
         //printSuffixArray();
+        }
     }
     
     public void quicksort(int left, int right){
@@ -214,8 +216,11 @@ public class Frequencer implements FrequencerInterface{
     
     public void setTarget(byte [] target) {
         myTarget = target;
-        if(myTarget.length>0)
-            targetReady = true;
+        if(target!=null){
+            if(myTarget.length>0){
+                targetReady = true;
+            }
+        }
     }
     
     public int frequency() {
@@ -230,7 +235,7 @@ public class Frequencer implements FrequencerInterface{
     
             frequencerObject = new Frequencer();
             frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("Hi Ho Hi Ho".getBytes());
+            frequencerObject.setTarget("H".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); }

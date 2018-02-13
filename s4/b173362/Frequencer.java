@@ -57,21 +57,8 @@ public class Frequencer implements FrequencerInterface{
         for(int i = 0; i< space.length; i++) {
             suffixArray[i] = i;
         }
-//////バブルソート///
-        /*
-        for(int i=0; i<space.length;i++){
-            for(int j=i+1;j<space.length;j++){
-        
-                if(suffixCompare(i,j)==1){
-                    int tmp=suffixArray[j];
-                    suffixArray[j]=suffixArray[i];
-                    suffixArray[i]=tmp;
-                }
-            }
-        }*/
-//////バブルソート////
-        quicksort(0,mySpace.length-1);
-        printSuffixArray();
+        quicksort(0,mySpace.length-1);//クイックソートの呼び出し
+        //printSuffixArray();
     }
     
     public void quicksort(int left, int right){
@@ -120,19 +107,22 @@ public class Frequencer implements FrequencerInterface{
         int left=0;
         int right=suffixArray.length-1;
         int mid = 0;
+        int found =0;
+        int index=-1;
         do{
             mid=(left+right)/2;
             //System.out.println("left:"+left+"right:"+right+"mid:"+mid);
             //System.out.println(targetCompare(mid,start,end));
-            if(targetCompare(mid,start,end)==0){
+            if(targetCompare(mid,start,end)==0){//midと一致で左再帰
                 //System.out.println("center");
                 right=mid-1;
+                found=1;index=mid;
             }
-            else if(targetCompare(mid,start,end)==-1){
+            else if(targetCompare(mid,start,end)==-1){//midと比較,targetが大きいなら右再帰
                 //System.out.println("right");
                 left=mid+1;
             }
-            else if(targetCompare(mid,start,end)==1){
+            else if(targetCompare(mid,start,end)==1){//midと比較,targetが小さいなら左再帰
                 //System.out.println("left");
                 right=mid-1;
             }
@@ -140,15 +130,19 @@ public class Frequencer implements FrequencerInterface{
                 //System.out.println("error");
                 return  suffixArray.length;}
             
-        }while(right-left>1);
+        }while(right-left>1);//要素が2つ以下ならループ抜ける
+
         
-        if(targetCompare(left,start,end)==0){
+        if(targetCompare(left,start,end)==0){　//左と比較
             return left;
         }
-        else if(targetCompare(right,start,end)==0){
+        else if(targetCompare(right,start,end)==0){//右と比較
             return right;
         }
-        return suffixArray.length;
+        else  if(found==1&&index!=-1){//途中で見つかっているならそのインデックスを返す
+            return index;
+        }
+        return suffixArray.length;//一致するものがなければ終了
     }
     
 
@@ -156,34 +150,43 @@ public class Frequencer implements FrequencerInterface{
         int left=0;
         int right=suffixArray.length-1;
         int mid = 0;
-        do{
+        int found =0;
+        int index=-1;
+        do{//２分探索
             mid=(left+right)/2;
             //System.out.println("left:"+left+"right:"+right+"mid:"+mid);
             //System.out.println(targetCompare(mid,start,end));
 
-            if(targetCompare(mid,start,end)==0){
+            if(targetCompare(mid,start,end)==0){//midと一致で右再帰
+                left=mid+1;
+                found=1;index=mid;
+            }
+            else if(targetCompare(mid,start,end)==-1){//midと比較,targetが大きいなら左再帰
                 left=mid+1;
             }
-            else if(targetCompare(mid,start,end)==-1){
-                left=mid+1;
-            }
-            else if(targetCompare(mid,start,end)==1){
+            else if(targetCompare(mid,start,end)==1){//midと比較,targetが小さいなら右再帰
                 right=mid-1;
             }
             else{return  suffixArray.length;}
-        }while(left<right);
+        }while(left<right);//要素が2つ以下ならループ抜ける
         
-        if(targetCompare(right,start,end)==0){
+        if(targetCompare(right,start,end)==0){　//右と比較
             return right+1;
         }
-        else if(targetCompare(left,start,end)!=0){
+        else if(targetCompare(left,start,end)==0){//左と比較
             return left+1;
         }
-        return suffixArray.length;
+        else  if(found==1&&index!=-1){//途中で見つかっているならそのインデックスを返す
+            return index+1;
+
+        }
+        return suffixArray.length;//一致するものがなければ終了
     }
 
     public int subByteFrequency(int start, int end) {
         /* This method could be defined as follows though it is slow.*/
+        if(myTarget==null||myTarget.length==0){return -1;}
+        else if(mySpace==null||mySpace.length==0){return 0;}
         int spaceLength = mySpace.length;
         int count = 0;
         for(int offset = 0; offset< spaceLength - (end - start); offset++) {
@@ -200,10 +203,10 @@ public class Frequencer implements FrequencerInterface{
         int last1 = subByteEndIndex(start, end);
         
         /* inspection code*/
-        for(int k=start;k<end;k++) {
+        /*for(int k=start;k<end;k++) {
             System.out.write(myTarget[k]);
-        }
-        System.out.printf(": first=%d last1=%d\n", first, last1);
+        }*/
+        //System.out.printf(": first=%d last1=%d\n", first, last1);
  
         return last1 - first;
     }
@@ -226,16 +229,15 @@ public class Frequencer implements FrequencerInterface{
         try {
     
             frequencerObject = new Frequencer();
-            frequencerObject.setSpace("Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("o Hi".getBytes());
+            frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
+            frequencerObject.setTarget("H".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); }
             else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
-            //System.out.println("STOP");
-            System.out.println(e);
+            System.out.println("STOP");
         }
     }
 }

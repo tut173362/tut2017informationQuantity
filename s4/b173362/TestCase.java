@@ -44,9 +44,9 @@ public class TestCase {
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-        subfreq = myObject.subByteFrequency(0,4);
+        subfreq = myObject.subByteFrequency(0,1);
         System.out.print("\"H\" in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
-        if(2 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        if(4 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         
         System.out.println();
         System.out.println("[Targetなしのパターン]");
@@ -57,7 +57,7 @@ public class TestCase {
         
         System.out.print("\"\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
         if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-        subfreq = myObject.subByteFrequency(0,4);
+        subfreq = myObject.subByteFrequency(0,1);
         System.out.print("\"\" in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
         if(-1 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         /*Target指定なし*/
@@ -71,7 +71,7 @@ public class TestCase {
         System.out.print("null in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
         if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         
-        subfreq = myObject.subByteFrequency(0,4);
+        subfreq = myObject.subByteFrequency(0,0);
         System.out.print("null in \"Hi Ho Hi Ho\"(0-4) appears "+subfreq+" times. ");
         if(-1 == subfreq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         /*Target null*/
@@ -79,7 +79,9 @@ public class TestCase {
         
 	}
 	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
+	    //System.out.println("Exception occurred: STOP");
+                    System.out.println(e);
+
 	}
 
 	try {
@@ -132,7 +134,8 @@ public class TestCase {
         /*ここまで*/
 	}
 	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
+	    //System.out.println("Exception occurred: STOP");
+                    System.out.println(e);
 	}
 
     }

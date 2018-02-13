@@ -37,15 +37,18 @@ public class InformationEstimator implements InformationEstimatorInterface{
     public void setTarget(byte [] target) { myTarget = target;}
     public void setSpace(byte []space) { 
 	myFrequencer = new Frequencer();
-	mySpace = space; myFrequencer.setSpace(space); 
+	mySpace = space;
+        if(space!=null){
+            myFrequencer.setSpace(space);
+        }
     }
 
     public double estimation(){
-        if(myTarget==null||myTarget.length==0){
-            return 0.0;
-        }
-        else if(mySpace==null||mySpace.length==0){
+        if(mySpace==null||mySpace.length==0){
             return Double.MAX_VALUE;
+        }
+        else if(myTarget==null||myTarget.length==0){
+            return 0.0;
         }
             
 	boolean [] partition = new boolean[myTarget.length+1];

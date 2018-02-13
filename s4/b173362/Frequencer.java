@@ -133,7 +133,7 @@ public class Frequencer implements FrequencerInterface{
         }while(right-left>1);//要素が2つ以下ならループ抜ける
 
         
-        if(targetCompare(left,start,end)==0){　//左と比較
+        if(targetCompare(left,start,end)==0){//左と比較
             return left;
         }
         else if(targetCompare(right,start,end)==0){//右と比較
@@ -170,7 +170,7 @@ public class Frequencer implements FrequencerInterface{
             else{return  suffixArray.length;}
         }while(left<right);//要素が2つ以下ならループ抜ける
         
-        if(targetCompare(right,start,end)==0){　//右と比較
+        if(targetCompare(right,start,end)==0){//右と比較
             return right+1;
         }
         else if(targetCompare(left,start,end)==0){//左と比較
@@ -230,7 +230,7 @@ public class Frequencer implements FrequencerInterface{
     
             frequencerObject = new Frequencer();
             frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("H".getBytes());
+            frequencerObject.setTarget("Hi Ho Hi Ho".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); }

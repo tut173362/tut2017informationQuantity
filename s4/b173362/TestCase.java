@@ -108,6 +108,10 @@ public class TestCase {
         value = myObject.estimation();
         System.out.println(">100 "+value);
         
+        myObject.setTarget("4".getBytes());
+        value = myObject.estimation();
+        System.out.println(">4 "+value);
+        
         /*ここから追加*/
         System.out.println("[Targetがないパターン]");
         System.out.println("0.0を出力する");
@@ -123,7 +127,7 @@ public class TestCase {
         System.out.print(">"+value);
         if(0.0 == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
         
-        System.out.println("[Spaceがないパターン]");
+        System.out.println("[Spaceが未指定パターン]");
         System.out.println("Double.MaxValueを出力する");
         myObject.setSpace(null);
         myObject.setTarget("0".getBytes());
@@ -131,6 +135,13 @@ public class TestCase {
         System.out.print(">0 "+value);
         if(Double.MAX_VALUE == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
         
+        System.out.println("[Spaceがないパターン]");
+        System.out.println("Double.MaxValueを出力する");
+        myObject.setSpace("".getBytes());
+        myObject.setTarget("0".getBytes());
+        value = myObject.estimation();
+        System.out.print(">0 "+value);
+        if(Double.MAX_VALUE == value) { System.out.println(" OK"); } else {System.out.println(" WRONG"); }
         /*ここまで*/
 	}
 	catch(Exception e) {
